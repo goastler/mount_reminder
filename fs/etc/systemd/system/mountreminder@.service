@@ -1,0 +1,12 @@
+[Unit]
+Description=Email if %I drive not mounted
+After=network.target
+
+[Service]
+Type=simple
+User=goastler
+ExecStart=/bin/bash --verbose -c "while : ; do if ! lsblk | grep \"%I$\"; then echo \"Subject: $$(hostname) %I needs mounting\" | sendmail goastler4@gmail.com; fi; sleep 1d; done"
+
+[Install]
+WantedBy=multi-user.target
+
